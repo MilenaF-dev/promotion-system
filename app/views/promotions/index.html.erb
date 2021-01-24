@@ -1,0 +1,18 @@
+<% if @promotions.empty? %>
+  <%= "Nenhuma promoção cadastrada" %>
+<% else %>
+  <dl>
+    <% @promotions.each do |promotion| %>
+      <hr>
+      <dt>Nome</dt>
+      <dd><%= link_to promotion.name, promotion %></dd>
+      <dt>Descrição</dt>
+      <dd><%= promotion.description %></dd>
+      <dt>Porcentagem de desconto</dt>
+      <dd><%= number_to_percentage promotion.discount_rate, precision: 2, separator: "," %></dd>
+    <% end %>
+  </dl>
+<% end %>
+
+<%= link_to "Voltar", root_path %>
+
