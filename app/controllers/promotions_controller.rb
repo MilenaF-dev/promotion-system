@@ -15,7 +15,7 @@ class PromotionsController < ApplicationController
     @promotion = Promotion.new(promotion_params)
 
     if @promotion.save
-      redirect_to @promotion
+      redirect_to promotion_path(id: @promotion.id)
     else
       render :new
     end

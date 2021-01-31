@@ -1,11 +1,11 @@
 <% if @promotions.empty? %>
-  <%= "Nenhuma promoção cadastrada" %>
+  <div class="warning">Nenhuma promoção cadastrada</div>
 <% else %>
   <dl>
     <% @promotions.each do |promotion| %>
       <hr>
       <dt>Nome</dt>
-      <dd><%= link_to promotion.name, promotion %></dd>
+      <dd><%= link_to promotion.name, promotion_path(id: promotion.id) %></dd>
       <dt>Descrição</dt>
       <dd><%= promotion.description %></dd>
       <dt>Porcentagem de desconto</dt>
