@@ -4,7 +4,7 @@ class PromotionsController < ApplicationController
   end
 
   def show
-    @promotion = Promotion.find(params[:id])
+    set_promotions
   end
 
   def new
@@ -22,11 +22,11 @@ class PromotionsController < ApplicationController
   end
 
   def edit
-    @promotion = Promotion.find(params[:id])
+    set_promotions
   end
 
   def update
-    @promotion = Promotion.find(params[:id])
+    set_promotions
 
     if @promotion.update(promotion_params)
       redirect_to promotion_path(id: @promotion.id)
@@ -35,7 +35,19 @@ class PromotionsController < ApplicationController
     end
   end
 
+  def destroy
+    set_promotions
+    @promotion.destroy
+
+    redirect_to promotions_path
+    flash[:notice] = "Promoção apagada com sucesso!"
+  end
+
   private
+
+  def set_promotions
+    @promotion = Promotion.find(params[:id])
+  end
 
   def promotion_params
     params.require(:promotion).permit(:name, :description, :discount_rate, :code, :coupon_quantity, :expiration_date)
