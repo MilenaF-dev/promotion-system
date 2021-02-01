@@ -12,4 +12,5 @@
   <dd><%= @promotion.coupon_quantity %></dd>
 </dl>
 
+<%= link_to "Editar", edit_promotion_path(id: @promotion.id) %>
 <%= link_to "Voltar", promotions_path %>

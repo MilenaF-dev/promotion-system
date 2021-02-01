@@ -1,50 +1,5 @@
 <h1>Nova promoção</h1>
-<% if @promotion.errors.any? %>
-  <div class="alert">
-    <p>Não foi possível criar a promoção</p>
-    <p>Confira os erros abaixo:</p>
-    <ul>
-      <% @promotion.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
 
-<%= form_with model: @promotion do |form| %>
-  <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label :code %><br>
-    <%= form.text_field :code %>
-  </div>
-
-  <div>
-    <%= form.label :discount_rate %><br>
-    <%= form.text_field :discount_rate %>
-  </div>
-
-  <div>
-    <%= form.label :coupon_quantity %><br>
-    <%= form.text_field :coupon_quantity %>
-  </div>
-
-  <div>
-    <%= form.label :expiration_date %><br>
-    <%= form.date_field :expiration_date %>
-  </div><br>
-
-  <div>
-    <%= form.submit "Criar promoção" %>
-  </div>
-<% end %><br>
+<%= render "form" %>
 
 <%= link_to "Voltar", promotions_path %>
