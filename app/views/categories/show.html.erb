@@ -4,4 +4,5 @@
     <dd><%= @category.code %></dd>
 </dl>
 
+<%= link_to "Editar", edit_category_path(id: @category.id) %><br>
 <%= link_to "Voltar", categories_path %>

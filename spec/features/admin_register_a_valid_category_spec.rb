@@ -21,6 +21,7 @@ feature "Admin register a valid category" do
     expect(current_path).to eq(category_path(Category.last))
     expect(page).to have_content("Eletrônicos")
     expect(page).to have_content("CYBER15")
+    expect(page).to have_link("Voltar")
   end
 
   scenario "and attributes cannot be blank" do
@@ -48,14 +49,5 @@ feature "Admin register a valid category" do
     click_on "Criar categoria"
 
     expect(page).to have_content("já está em uso")
-  end
-
-  scenario "and return to promotions page" do
-    visit root_path
-    click_on "Categorias"
-    click_on "Registrar uma categoria"
-
-    expect(page).to have_link("Voltar",
-                              href: categories_path)
   end
 end

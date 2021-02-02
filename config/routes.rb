@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :promotions
-  resources :categories
+  resources :categories, only: %i[index show new create edit update]
 end
