@@ -1,8 +1,4 @@
-<% flash.each do |type, msg| %>
-  <div class="notice">
-    <%= msg %>
-  </div>
-<% end %>
+<%= flash[:notice] %>
 
 <% if @promotions.empty? %>
   <div class="warning">Nenhuma promoção cadastrada</div>

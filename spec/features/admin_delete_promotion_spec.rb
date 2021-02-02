@@ -24,5 +24,6 @@ feature "Admin delete a existent promotion" do
     click_on "Apagar"
 
     expect(page).to have_content("Promoção apagada com sucesso!")
+    expect(page).to_not have_content("Natal")
   end
 end

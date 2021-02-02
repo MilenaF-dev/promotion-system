@@ -39,8 +39,8 @@ class PromotionsController < ApplicationController
     set_promotions
     @promotion.destroy
 
-    redirect_to promotions_path
     flash[:notice] = "Promoção apagada com sucesso!"
+    redirect_to promotions_path
   end
 
   private

@@ -12,8 +12,8 @@
   <dd><%= @promotion.coupon_quantity %></dd>
 </dl>
 
-<%= link_to "Editar", edit_promotion_path(id: @promotion.id) %>
+<%= link_to "Editar", edit_promotion_path(id: @promotion.id) %><br>
 <%= link_to "Apagar", promotion_path(id: @promotion.id),
             method: :delete,
-            data: { confirm: "Tem certeza que deseja apagar essa promoção" } %>
+            data: { confirm: "Tem certeza que deseja apagar essa promoção" } %><br>
 <%= link_to "Voltar", promotions_path %>

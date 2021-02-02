@@ -4,6 +4,9 @@ pt-BR:
         promotion: 
           one: promoção
           other: promoções
+        category:
+          one: categoria
+          other: categorias
       attributes:
         promotion:
           name: "Nome"
@@ -12,3 +15,6 @@ pt-BR:
           discount_rate: "Desconto"
           coupon_quantity: "Quantidade de cupons"
           expiration_date: "Data de término"
+        category:
+          name: "Nome"
+          code: "Código"
