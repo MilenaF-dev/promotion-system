@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_122744) do
+ActiveRecord::Schema.define(version: 2021_02_03_203611) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string "code"
+    t.integer "promotion_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_coupons_on_code", unique: true
+    t.index ["promotion_id"], name: "index_coupons_on_promotion_id"
   end
 
   create_table "promotions", force: :cascade do |t|
@@ -30,4 +39,5 @@ ActiveRecord::Schema.define(version: 2021_02_02_122744) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "coupons", "promotions"
 end
