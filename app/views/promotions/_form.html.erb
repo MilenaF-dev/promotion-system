@@ -1,20 +1,20 @@
-<% if @promotion.errors.any? %>
+<% if promotion.errors.any? %>
   <div class="alert">
-    <% if @promotion.persisted? %>
+    <% if promotion.persisted? %>
         <p>Não foi possível editar a promoção</p>
     <% else %>
       <p>Não foi possível criar a promoção</p>
     <% end %>
     <p>Confira os erros abaixo:</p>
     <ul>
-      <% @promotion.errors.full_messages.each do |message| %>
+      <% promotion.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<%= form_with model: @promotion do |form| %>
+<%= form_with model: promotion do |form| %>
   <div>
     <%= form.label :name %><br>
     <%= form.text_field :name %>

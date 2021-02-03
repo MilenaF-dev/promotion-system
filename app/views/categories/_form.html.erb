@@ -1,6 +1,6 @@
-<% if @category.errors.any? %>
+<% if category.errors.any? %>
   <div class="alert">
-    <% if @category.persisted? %>
+    <% if category.persisted? %>
       <p>Não foi possível editar a categoria</p>
     <% else %>
       <p>Não foi possível criar a categoria</p>
@@ -8,14 +8,14 @@
     
     <p>Confira os erros abaixo:</p>
     <ul>
-      <% @category.errors.full_messages.each do |message| %>
+      <% category.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<%= form_with model: @category do |form| %>
+<%= form_with model: category do |form| %>
   <div>
     <%= form.label :name %><br>
     <%= form.text_field :name %>
