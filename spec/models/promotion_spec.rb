@@ -43,4 +43,31 @@ describe Promotion do
       expect(promotion.errors[:code]).to include("já está em uso")
     end
   end
+
+  context "#generate_coupons!" do
+    it "generates coupons of coupons_quantity" do
+      promotion = Promotion.create!(name: "Natal", description: "", code: "NATAL10",
+                                    coupon_quantity: 100, discount_rate: 10,
+                                    expiration_date: "2021-10-10")
+
+      promotion.generate_coupons!
+
+      expect(promotion.coupons.size).to eq(100)
+      expect(promotion.coupons.pluck(:code)).to include("NATAL10-0001")
+      expect(promotion.coupons.pluck(:code)).to include("NATAL10-0100")
+      expect(promotion.coupons.pluck(:code)).not_to include("NATAL10-0000")
+      expect(promotion.coupons.pluck(:code)).not_to include("NATAL10-0101")
+    end
+
+    it "do not generate if error" do
+      promotion = Promotion.create!(name: "Natal", description: "", code: "NATAL10",
+                                    coupon_quantity: 100, discount_rate: 10,
+                                    expiration_date: "2021-10-10")
+      promotion.coupons.create!(code: "NATAL10-0030")
+
+      expect { promotion.generate_coupons! }.to raise_error(ActiveRecord::RecordNotUnique)
+
+      expect(promotion.coupons.reload.size).to eq(1)
+    end
+  end
 end
