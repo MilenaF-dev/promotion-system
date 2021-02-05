@@ -28,6 +28,11 @@
 <div class="coupons">
   <hr>
   <% @promotion.coupons.each do |coupon| %>
-    <%= coupon.code %><br>
+    <% if coupon.active? %>
+      <%= coupon.code %>
+      <%= link_to "Inativar", inactivate_coupon_path(coupon), method: :post %>
+    <% else %>
+      <%= "#{coupon.code} (Inativo)" %>
+    <% end %>
   <% end %>
 </div>
