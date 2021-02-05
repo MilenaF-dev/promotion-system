@@ -18,11 +18,16 @@
 <%= link_to "Apagar", promotion_path(id: @promotion.id),
             method: :delete,
             data: { confirm: "Tem certeza que deseja apagar essa promoção" } %><br>
-<%= link_to "Gerar cupons", generate_coupons_promotion_path(@promotion), method: :post %><br>
+<div>
+  <% unless @promotion.coupons.any? %>
+    <%= link_to "Gerar cupons", generate_coupons_promotion_path(@promotion), method: :post %>
+  <% end %>
+</div>
+<%= link_to "Voltar", promotions_path %>
 
-<%= link_to "Voltar", promotions_path %><br>
-
-
-<% @promotion.coupons.each do |coupon| %>
-  <%= coupon.code %><br>
-<% end %>
+<div class="coupons">
+  <hr>
+  <% @promotion.coupons.each do |coupon| %>
+    <%= coupon.code %><br>
+  <% end %>
+</div>

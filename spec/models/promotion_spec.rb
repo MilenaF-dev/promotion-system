@@ -42,6 +42,16 @@ describe Promotion do
 
       expect(promotion.errors[:code]).to include("já está em uso")
     end
+
+    it "coupon quantity must be less than 10000" do
+      promotion = Promotion.new(name: "Natal", description: "Promoção de Natal",
+                                code: "NATAL10", discount_rate: 10,
+                                coupon_quantity: 10000, expiration_date: "22/12/2033")
+
+      promotion.valid?
+
+      expect(promotion.errors[:coupon_quantity]).to include("deve ser menor que 10000")
+    end
   end
 
   context "#generate_coupons!" do
@@ -68,6 +78,17 @@ describe Promotion do
       expect { promotion.generate_coupons! }.to raise_error(ActiveRecord::RecordNotUnique)
 
       expect(promotion.coupons.reload.size).to eq(1)
+    end
+
+    it "code and coupon quantity cannot be edited if coupons was generated" do
+      promotion = Promotion.create!(name: "Natal", description: "", code: "NATAL10",
+                                    coupon_quantity: 100, discount_rate: 10,
+                                    expiration_date: "2021-10-10")
+      promotion.generate_coupons!
+      promotion.update(code: "NATAL15", coupon_quantity: 150)
+
+      expect(promotion.errors[:code]).to include("não pode ser alterado")
+      expect(promotion.errors[:coupon_quantity]).to include("não pode ser alterado")
     end
   end
 end
