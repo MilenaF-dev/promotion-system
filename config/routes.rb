@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   resources :coupons, only: [] do
     post "inactivate", on: :member
+    post "activate", on: :member
   end
 
   resources :categories, only: %i[index show new create edit update]
