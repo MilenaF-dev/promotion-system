@@ -17,6 +17,7 @@
         <%= link_to "Sair", destroy_admin_session_path, method: :delete %>
       <% else %>
         <%= link_to "Entrar", new_admin_session_path %>
+        <%= link_to "Registrar-se", new_admin_registration_path %>
       <% end %>
     </nav>
 
