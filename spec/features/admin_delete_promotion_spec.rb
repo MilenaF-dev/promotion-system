@@ -1,11 +1,20 @@
 require "rails_helper"
 
 feature "Admin delete a existent promotion" do
+  scenario "must be signed in" do
+    visit root_path
+    click_on "Promoções"
+
+    expect(current_path).to eq new_admin_session_path
+  end
+
   scenario "from index page" do
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
     Promotion.create!(name: "Natal", description: "Promoção de Natal",
                       code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: "22/12/2033")
+                      expiration_date: "22/12/2033", admin: admin)
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Promoções"
     click_on "Natal"
@@ -14,10 +23,12 @@ feature "Admin delete a existent promotion" do
   end
 
   scenario "successfully" do
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
     Promotion.create!(name: "Natal", description: "Promoção de Natal",
                       code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: "22/12/2033")
+                      expiration_date: "22/12/2033", admin: admin)
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Promoções"
     click_on "Natal"

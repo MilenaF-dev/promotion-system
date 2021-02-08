@@ -1,9 +1,18 @@
 require "rails_helper"
 
 feature "Admin edit a existent promotion" do
+  scenario "must be signed in" do
+    visit root_path
+    click_on "Categorias"
+
+    expect(current_path).to eq new_admin_session_path
+  end
+
   scenario "from index page" do
     category = Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on category.name
@@ -14,7 +23,9 @@ feature "Admin edit a existent promotion" do
 
   scenario "successfully" do
     category = Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on category.name
@@ -32,7 +43,9 @@ feature "Admin edit a existent promotion" do
 
   scenario "and attributes cannot be blank" do
     category = Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on category.name
@@ -50,7 +63,9 @@ feature "Admin edit a existent promotion" do
   scenario "and code must be unique" do
     category = Category.create!(name: "Eletrônicos", code: "CYBER15")
     Category.create!(name: "Livros", code: "BOOK15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on category.name
@@ -64,7 +79,9 @@ feature "Admin edit a existent promotion" do
 
   scenario "and return to promotion page" do
     category = Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on category.name

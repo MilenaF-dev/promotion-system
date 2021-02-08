@@ -1,7 +1,17 @@
 require "rails_helper"
 
 feature "Admin register a valid category" do
+  scenario "must be signed in" do
+    visit root_path
+    click_on "Categorias"
+
+    expect(current_path).to eq new_admin_session_path
+  end
+
   scenario "from index page" do
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
+
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
 
@@ -10,6 +20,9 @@ feature "Admin register a valid category" do
   end
 
   scenario "successfully" do
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
+
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on "Registrar uma categoria"
@@ -25,6 +38,9 @@ feature "Admin register a valid category" do
   end
 
   scenario "and attributes cannot be blank" do
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
+
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on "Registrar uma categoria"
@@ -41,7 +57,9 @@ feature "Admin register a valid category" do
 
   scenario "and code must be unique" do
     Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on "Registrar uma categoria"

@@ -1,4 +1,6 @@
 class PromotionsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
     @promotions = Promotion.all
   end
@@ -13,6 +15,7 @@ class PromotionsController < ApplicationController
 
   def create
     @promotion = Promotion.new(promotion_params)
+    @promotion.admin = current_admin
 
     if @promotion.save
       redirect_to promotion_path(id: @promotion.id)

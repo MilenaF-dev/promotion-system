@@ -3,16 +3,18 @@ require "rails_helper"
 describe Promotion do
   context "validation" do
     it "attributes cannot be blank" do
-      promotion = Promotion.new
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
+      promotion = Promotion.new(admin: admin)
 
       expect(promotion.valid?).to eq false
       expect(promotion.errors.count).to eq 5
     end
 
     it "description is optional" do
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
       promotion = Promotion.new(name: "Natal", description: "", code: "NAT",
                                 coupon_quantity: 10, discount_rate: 10,
-                                expiration_date: "2021-10-10")
+                                expiration_date: "2021-10-10", admin: admin)
 
       expect(promotion.valid?).to eq true
     end
@@ -33,9 +35,10 @@ describe Promotion do
     end
 
     it "code must be uniq" do
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
       Promotion.create!(name: "Natal", description: "Promoção de Natal",
                         code: "NATAL10", discount_rate: 10,
-                        coupon_quantity: 100, expiration_date: "22/12/2033")
+                        coupon_quantity: 100, expiration_date: "22/12/2033", admin: admin)
       promotion = Promotion.new(code: "NATAL10")
 
       promotion.valid?
@@ -44,9 +47,10 @@ describe Promotion do
     end
 
     it "coupon quantity must be less than 10000" do
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
       promotion = Promotion.new(name: "Natal", description: "Promoção de Natal",
                                 code: "NATAL10", discount_rate: 10,
-                                coupon_quantity: 10000, expiration_date: "22/12/2033")
+                                coupon_quantity: 10000, expiration_date: "22/12/2033", admin: admin)
 
       promotion.valid?
 
@@ -56,9 +60,10 @@ describe Promotion do
 
   context "#generate_coupons!" do
     it "generates coupons of coupons_quantity" do
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
       promotion = Promotion.create!(name: "Natal", description: "", code: "NATAL10",
                                     coupon_quantity: 100, discount_rate: 10,
-                                    expiration_date: "2021-10-10")
+                                    expiration_date: "2021-10-10", admin: admin)
 
       promotion.generate_coupons!
 
@@ -70,9 +75,10 @@ describe Promotion do
     end
 
     it "do not generate if error" do
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
       promotion = Promotion.create!(name: "Natal", description: "", code: "NATAL10",
                                     coupon_quantity: 100, discount_rate: 10,
-                                    expiration_date: "2021-10-10")
+                                    expiration_date: "2021-10-10", admin: admin)
       promotion.coupons.create!(code: "NATAL10-0030")
 
       expect { promotion.generate_coupons! }.to raise_error(ActiveRecord::RecordNotUnique)
@@ -81,9 +87,10 @@ describe Promotion do
     end
 
     it "code and coupon quantity cannot be edited if coupons was generated" do
+      admin = Admin.create!(email: "milena@email.com", password: "123456")
       promotion = Promotion.create!(name: "Natal", description: "", code: "NATAL10",
                                     coupon_quantity: 100, discount_rate: 10,
-                                    expiration_date: "2021-10-10")
+                                    expiration_date: "2021-10-10", admin: admin)
       promotion.generate_coupons!
       promotion.update(code: "NATAL15", coupon_quantity: 150)
 

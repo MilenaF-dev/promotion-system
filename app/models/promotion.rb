@@ -1,5 +1,6 @@
 class Promotion < ApplicationRecord
   has_many :coupons, dependent: :destroy
+  belongs_to :admin
 
   validates :name, :code, :discount_rate, :expiration_date, :coupon_quantity, presence: true
   validates :name, :code, uniqueness: true

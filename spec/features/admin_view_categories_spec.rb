@@ -1,10 +1,19 @@
 require "rails_helper"
 
 feature "Admin view categories" do
+  scenario "must be signed in" do
+    visit root_path
+    click_on "Categorias"
+
+    expect(current_path).to eq new_admin_session_path
+  end
+
   scenario "successfully" do
     Category.create!(name: "Eletrônicos", code: "CYBER15")
     Category.create!(name: "Livros", code: "BOOK20")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
 
@@ -15,7 +24,9 @@ feature "Admin view categories" do
   scenario "and view details" do
     Category.create!(name: "Eletrônicos", code: "CYBER15")
     Category.create!(name: "Livros", code: "BOOK20")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on "Livros"
@@ -25,6 +36,9 @@ feature "Admin view categories" do
   end
 
   scenario "and no category are created" do
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
+
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
 
@@ -33,7 +47,9 @@ feature "Admin view categories" do
 
   scenario "and return to home page" do
     Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on "Voltar"
@@ -43,7 +59,9 @@ feature "Admin view categories" do
 
   scenario "and return to promotions page" do
     Category.create!(name: "Eletrônicos", code: "CYBER15")
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
 
+    login_as admin, scope: :admin
     visit root_path
     click_on "Categorias"
     click_on "Eletrônicos"

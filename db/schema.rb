@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_07_142038) do
+ActiveRecord::Schema.define(version: 2021_02_08_124836) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -50,7 +50,10 @@ ActiveRecord::Schema.define(version: 2021_02_07_142038) do
     t.date "expiration_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "admin_id", null: false
+    t.index ["admin_id"], name: "index_promotions_on_admin_id"
   end
 
   add_foreign_key "coupons", "promotions"
+  add_foreign_key "promotions", "admins"
 end

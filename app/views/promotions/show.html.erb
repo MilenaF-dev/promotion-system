@@ -1,6 +1,7 @@
 <%= flash[:notice] %>
 
 <h1><%= @promotion.name %></h1>
+<span>Cadastrada por: <%= @promotion.admin.email %></span>
 <dl>
   <dt>Descrição</dt>
   <dd><%= @promotion.description %></dd>
