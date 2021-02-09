@@ -1,13 +1,6 @@
 require "rails_helper"
 
 feature "Admin registers a valid promotion" do
-  scenario "must be signed in" do
-    visit root_path
-    click_on "Promoções"
-
-    expect(current_path).to eq new_admin_session_path
-  end
-
   scenario "and attributes cannot be blank" do
     admin = Admin.create!(email: "milena@email.com", password: "123456")
 

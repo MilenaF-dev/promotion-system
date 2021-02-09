@@ -1,13 +1,6 @@
 require "rails_helper"
 
 feature "Admin register a valid category" do
-  scenario "must be signed in" do
-    visit root_path
-    click_on "Categorias"
-
-    expect(current_path).to eq new_admin_session_path
-  end
-
   scenario "from index page" do
     admin = Admin.create!(email: "milena@email.com", password: "123456")
 

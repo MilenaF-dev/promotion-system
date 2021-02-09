@@ -2,15 +2,19 @@ require "rails_helper"
 
 feature "Admin edit a existent promotion" do
   scenario "must be signed in" do
-    visit root_path
-    click_on "Promoções"
+    admin = Admin.create!(email: "milena@email.com", password: "123456")
+    promotion = Promotion.create!(name: "Natal", description: "Promoção de Natal",
+                                  code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
+                                  expiration_date: "22/12/2033", admin: admin)
 
+    visit promotion_path(promotion)
+    
     expect(current_path).to eq new_admin_session_path
   end
 
   scenario "from index page" do
     admin = Admin.create!(email: "milena@email.com", password: "123456")
-    Promotion.create!(name: "Natal", description: "Promoção de Natal",
+    promotion = Promotion.create!(name: "Natal", description: "Promoção de Natal",
                       code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
                       expiration_date: "22/12/2033", admin: admin)
 

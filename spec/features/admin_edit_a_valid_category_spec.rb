@@ -2,9 +2,10 @@ require "rails_helper"
 
 feature "Admin edit a existent promotion" do
   scenario "must be signed in" do
-    visit root_path
-    click_on "Categorias"
+    category = Category.create!(name: "Eletrônicos", code: "CYBER15")
 
+    visit category_path(category)
+  
     expect(current_path).to eq new_admin_session_path
   end
 
