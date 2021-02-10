@@ -52,6 +52,12 @@ class PromotionsController < ApplicationController
     redirect_to @promotion, notice: t(".success")
   end
 
+  def approve
+    set_promotions
+    @promotion.approve!(current_admin)
+    redirect_to @promotion
+  end
+
   private
 
   def set_promotions

@@ -98,4 +98,32 @@ describe Promotion do
       expect(promotion.errors[:coupon_quantity]).to include("não pode ser alterado")
     end
   end
+
+  context "#approve!" do
+    it "should generate a PromotionApproval object" do
+      creator = Admin.create!(email: "milena@email.com", password: "123456")
+      promotion = Promotion.create!(name: "Natal", description: "Promoção de Natal",
+                                    code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
+                                    expiration_date: "22/12/2033", admin: creator)
+      approval_admin = Admin.create!(email: "milena.neeves@email.com", password: "654321")
+
+      promotion.approve!(approval_admin)
+
+      promotion.reload
+      expect(promotion.approved?).to be_truthy
+      expect(promotion.approver).to eq(approval_admin)
+    end
+
+    it "should not approve if same user" do
+      creator = Admin.create!(email: "milena@email.com", password: "123456")
+      promotion = Promotion.create!(name: "Natal", description: "Promoção de Natal",
+                                    code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
+                                    expiration_date: "22/12/2033", admin: creator)
+
+      promotion.approve!(creator)
+
+      promotion.reload
+      expect(promotion.approved?).to be_falsy
+    end
+  end
 end

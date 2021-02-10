@@ -1,5 +1,12 @@
 <h1><%= @promotion.name %></h1>
 <span>Cadastrada por: <%= @promotion.admin.email %></span>
+
+<div>
+  <% if @promotion.approved? %>
+    Aprovada por: <%= @promotion.approver.email %>
+  <% end %>
+</div>
+
 <dl>
   <dt>Descrição</dt>
   <dd><%= @promotion.description %></dd>
@@ -18,7 +25,12 @@
             method: :delete,
             data: { confirm: "Tem certeza que deseja apagar essa promoção" } %><br>
 <div>
-  <% unless @promotion.coupons.any? %>
+  <% unless current_admin == @promotion.admin || @promotion.approved? %>
+    <%= link_to "Aprovar promoção", approve_promotion_path, method: :post %>
+  <% end %>
+</div>
+<div>
+  <% if @promotion.coupons.empty? && @promotion.approved? %>
     <%= link_to "Gerar cupons", generate_coupons_promotion_path(@promotion), method: :post %>
   <% end %>
 </div>

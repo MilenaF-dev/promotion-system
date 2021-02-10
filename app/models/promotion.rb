@@ -1,5 +1,6 @@
 class Promotion < ApplicationRecord
   has_many :coupons, dependent: :destroy
+  has_one :promotion_approval
   belongs_to :admin
 
   validates :name, :code, :discount_rate, :expiration_date, :coupon_quantity, presence: true
@@ -18,6 +19,18 @@ class Promotion < ApplicationRecord
     Coupon.transaction do
       coupons.insert_all!(array_coupons)
     end
+  end
+
+  def approve!(approval_admin)
+    PromotionApproval.create(promotion: self, admin: approval_admin)
+  end
+
+  def approved?
+    promotion_approval
+  end
+
+  def approver
+    promotion_approval&.admin
   end
 
   private
