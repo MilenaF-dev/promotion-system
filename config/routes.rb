@@ -15,4 +15,10 @@ Rails.application.routes.draw do
   end
 
   resources :categories, only: %i[index show new create edit update]
+
+  namespace "api", defaults: { format: :json } do
+    namespace "v1" do
+      resources :coupons, only: [:show]
+    end
+  end
 end
