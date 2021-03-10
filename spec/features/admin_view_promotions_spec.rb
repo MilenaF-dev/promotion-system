@@ -9,14 +9,12 @@ feature "Admin view promotions" do
   end
 
   scenario "successfully" do
-    admin = Admin.create!(email: "milena@email.com", password: "123456")
-    Promotion.create!(name: "Natal", description: "Promoção de Natal",
-                      code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: "22/12/2033", admin: admin)
-    Promotion.create!(name: "Cyber Monday", coupon_quantity: 100,
-                      description: "Promoção de Cyber Monday",
-                      code: "CYBER15", discount_rate: 15,
-                      expiration_date: "22/12/2033", admin: admin)
+    admin = create(:admin)
+    promotion = create(:promotion, admin: admin)
+    other_promotion = create(:promotion, name: "Cyber Monday",
+                              description: "Promoção de Cyber Monday",
+                              code: "CYBER15", discount_rate: 15,
+                              admin: admin)
 
     login_as admin, scope: :admin
     visit root_path
@@ -31,30 +29,28 @@ feature "Admin view promotions" do
   end
 
   scenario "and view details" do
-    admin = Admin.create!(email: "milena@email.com", password: "123456")
-    Promotion.create!(name: "Natal", description: "Promoção de Natal",
-                      code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: "22/12/2033", admin: admin)
-    Promotion.create!(name: "Cyber Monday", coupon_quantity: 90,
-                      description: "Promoção de Cyber Monday",
-                      code: "CYBER15", discount_rate: 15,
-                      expiration_date: "22/12/2033", admin: admin)
+    admin = create(:admin)
+    promotion = create(:promotion, admin: admin)
+    other_promotion = create(:promotion, name: "Cyber Monday",
+                              description: "Promoção de Cyber Monday",
+                              code: "CYBER15", discount_rate: 15,
+                              admin: admin)
 
     login_as admin, scope: :admin
     visit root_path
     click_on "Promoções"
-    click_on "Cyber Monday"
+    click_on "Natal"
 
-    expect(page).to have_content("Cyber Monday")
-    expect(page).to have_content("Promoção de Cyber Monday")
-    expect(page).to have_content("15,00%")
-    expect(page).to have_content("CYBER15")
+    expect(page).to have_content("Natal")
+    expect(page).to have_content("Promoção de Natal")
+    expect(page).to have_content("10,00%")
+    expect(page).to have_content("NATAL10")
     expect(page).to have_content("22/12/2033")
-    expect(page).to have_content("90")
+    expect(page).to have_content("100")
   end
 
   scenario "and no promotion are created" do
-    admin = Admin.create!(email: "milena@email.com", password: "123456")
+    admin = create(:admin)
 
     login_as admin, scope: :admin
     visit root_path
@@ -64,10 +60,8 @@ feature "Admin view promotions" do
   end
 
   scenario "and return to home page" do
-    admin = Admin.create!(email: "milena@email.com", password: "123456")
-    Promotion.create!(name: "Natal", description: "Promoção de Natal",
-                      code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: "22/12/2033", admin: admin)
+    admin = create(:admin)
+    promotion = create(:promotion, admin: admin)
 
     login_as admin, scope: :admin
     visit root_path
@@ -78,10 +72,8 @@ feature "Admin view promotions" do
   end
 
   scenario "and return to promotions page" do
-    admin = Admin.create!(email: "milena@email.com", password: "123456")
-    Promotion.create!(name: "Natal", description: "Promoção de Natal",
-                      code: "NATAL10", discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: "22/12/2033", admin: admin)
+    admin = create(:admin)
+    promotion = create(:promotion, name: "Natal", admin: admin)
 
     login_as admin, scope: :admin
     visit root_path
