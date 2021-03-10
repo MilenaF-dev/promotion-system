@@ -3,11 +3,12 @@ module Api
     class CouponsController < ApiController
       def show
         coupon = Coupon.find_by(code: params[:id])
-        return render status: 404, json: "{ msg: coupon not found }" if coupon.nil?
-        render json: coupon.as_json(only: [:code, :status],
+        return render status: :not_found, json: "{ msg: coupon not found }" if coupon.nil?
+
+        render json: coupon.as_json(only: %i[code status],
                                     include: {
-                                      promotion: { only: [:discount_rate, :expiration_date] },
-                                    }), status: 200
+                                      promotion: { only: %i[discount_rate expiration_date] }
+                                    }), status: :ok
       end
     end
   end

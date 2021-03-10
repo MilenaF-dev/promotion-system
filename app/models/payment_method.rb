@@ -11,7 +11,7 @@ class PaymentMethod
     json_response.each do |r|
       payment_methods << new(name: r[:name], code: r[:code])
     end
-    return payment_methods
+    payment_methods
   end
 
   def initialize(name:, code:)
