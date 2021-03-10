@@ -13,6 +13,7 @@ feature "Admin registers a promotion" do
   end
 
   scenario "successfully" do
+    allow(PaymentMethod).to receive(:all).and_return("[]")
     admin = Admin.create!(email: "milena@email.com", password: "123456")
 
     login_as admin, scope: :admin

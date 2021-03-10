@@ -11,6 +11,7 @@ class PromotionsController < ApplicationController
 
   def new
     @promotion = Promotion.new
+    @payment_methods = PaymentMethod.all
   end
 
   def create
